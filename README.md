@@ -25,12 +25,6 @@
 
 ---
 
-## 🏆 Trophy Case
-
-<p align="center">
-  <img src="https://github-profile-trophy.vercel.app/?username=Joshua-Peter7&theme=radical&no-frame=true&column=7&margin-w=8"/>
-</p>
-
 ---
 
 ## 📡 Connect
