@@ -1,0 +1,158 @@
+<svg width="900" height="460" viewBox="0 0 900 460" xmlns="http://www.w3.org/2000/svg">
+<style>
+  @keyframes fillBar { from{width:0} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes shimmer { 0%{transform:translateX(-900px)} 100%{transform:translateX(900px)} }
+  @keyframes pulse { 0%,100%{opacity:.7} 50%{opacity:1} }
+  @keyframes scanH { 0%{transform:translateY(-460px)} 100%{transform:translateY(460px)} }
+  .bar-fill { animation: fillBar 1.4s ease both; }
+  .b1  { animation-delay:.7s;  }
+  .b2  { animation-delay:.9s;  }
+  .b3  { animation-delay:1.1s; }
+  .b4  { animation-delay:1.3s; }
+  .b5  { animation-delay:1.5s; }
+  .b6  { animation-delay:1.0s; }
+  .b7  { animation-delay:1.2s; }
+  .b8  { animation-delay:1.4s; }
+  .b9  { animation-delay:1.6s; }
+  .b10 { animation-delay:1.8s; }
+  .cat { animation: fadeUp .6s ease both; font-family:'Courier New',Courier,monospace; font-size:11px; }
+  .c1 { animation-delay:.5s; }
+  .c2 { animation-delay:.9s; }
+  .lbl { font-family:'Courier New',Courier,monospace; font-size:12.5px; fill:#bbb; }
+  .pct { font-family:'Courier New',Courier,monospace; font-size:12px; fill:#DC0000; }
+  .scanH { animation: scanH 10s linear infinite; opacity:.02; }
+  .titleTxt { animation: fadeUp .7s ease .2s both; }
+</style>
+<defs>
+  <linearGradient id="sbg" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#080808"/>
+    <stop offset="100%" stop-color="#0a0a0a"/>
+  </linearGradient>
+  <linearGradient id="bar1" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#DC0000"/>
+    <stop offset="60%" stop-color="#FF2800"/>
+    <stop offset="100%" stop-color="#FF8C00"/>
+  </linearGradient>
+  <linearGradient id="bar2" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#880000"/>
+    <stop offset="50%" stop-color="#DC0000"/>
+    <stop offset="100%" stop-color="#FF6600"/>
+  </linearGradient>
+  <filter id="bglow">
+    <feGaussianBlur stdDeviation="2" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+
+<rect width="900" height="460" fill="url(#sbg)"/>
+
+<!-- Grid -->
+<g stroke="#FF2800" stroke-width=".25" opacity=".04">
+  <line x1="230" y1="0" x2="230" y2="460"/>
+  <line x1="460" y1="0" x2="460" y2="460"/>
+  <line x1="690" y1="0" x2="690" y2="460"/>
+  <line x1="0" y1="115" x2="900" y2="115"/>
+  <line x1="0" y1="230" x2="900" y2="230"/>
+  <line x1="0" y1="345" x2="900" y2="345"/>
+</g>
+
+<!-- Scan -->
+<rect class="scanH" x="0" y="0" width="900" height="60" fill="#FF2800"/>
+
+<!-- Title -->
+<text class="titleTxt" x="450" y="42" text-anchor="middle"
+  font-family="'Arial Black',Impact,sans-serif"
+  font-size="18" fill="#DC0000" letter-spacing="6">⚡ SKILLS &amp; SPECIALIZATIONS</text>
+<line x1="80" y1="52" x2="820" y2="52" stroke="#DC0000" stroke-width=".8" opacity=".3"/>
+
+<!-- ── CATEGORY 1: ML STACK ── -->
+<text class="cat c1" x="50" y="82" font-size="11" fill="#888" letter-spacing="4">🧠  MACHINE LEARNING STACK</text>
+<line x1="50" y1="88" x2="860" y2="88" stroke="#222" stroke-width="1"/>
+
+<!-- PyTorch 85% → 510px -->
+<text class="lbl" x="50" y="114">PyTorch</text>
+<rect x="230" y="103" width="580" height="14" rx="7" fill="#161616"/>
+<rect class="bar-fill b1" x="230" y="103" width="493" height="14" rx="7" fill="url(#bar1)" filter="url(#bglow)"/>
+<text class="pct" x="824" y="114" text-anchor="end">85%</text>
+
+<!-- TensorFlow 80% → 464px -->
+<text class="lbl" x="50" y="144">TensorFlow</text>
+<rect x="230" y="133" width="580" height="14" rx="7" fill="#161616"/>
+<rect class="bar-fill b2" x="230" y="133" width="464" height="14" rx="7" fill="url(#bar2)" filter="url(#bglow)"/>
+<text class="pct" x="824" y="144" text-anchor="end">80%</text>
+
+<!-- HuggingFace 92% → 534px -->
+<text class="lbl" x="50" y="174">HuggingFace 🤗</text>
+<rect x="230" y="163" width="580" height="14" rx="7" fill="#161616"/>
+<rect class="bar-fill b3" x="230" y="163" width="534" height="14" rx="7" fill="url(#bar1)" filter="url(#bglow)"/>
+<text class="pct" x="824" y="174" text-anchor="end">92%</text>
+
+<!-- scikit-learn 95% → 551px -->
+<text class="lbl" x="50" y="204">scikit-learn</text>
+<rect x="230" y="193" width="580" height="14" rx="7" fill="#161616"/>
+<rect class="bar-fill b4" x="230" y="193" width="551" height="14" rx="7" fill="url(#bar2)" filter="url(#bglow)"/>
+<text class="pct" x="824" y="204" text-anchor="end">95%</text>
+
+<!-- LangChain 76% → 441px -->
+<text class="lbl" x="50" y="234">LangChain</text>
+<rect x="230" y="223" width="580" height="14" rx="7" fill="#161616"/>
+<rect class="bar-fill b5" x="230" y="223" width="441" height="14" rx="7" fill="url(#bar1)" filter="url(#bglow)"/>
+<text class="pct" x="824" y="234" text-anchor="end">76%</text>
+
+<!-- ── CATEGORY 2: SPECIALIZATIONS ── -->
+<text class="cat c2" x="50" y="266" letter-spacing="4">🏁  ML SPECIALIZATIONS</text>
+<line x1="50" y1="272" x2="860" y2="272" stroke="#222" stroke-width="1"/>
+
+<!-- Deep Learning 100% → 580px -->
+<text class="lbl" x="50" y="298">Deep Learning</text>
+<rect x="230" y="287" width="580" height="14" rx="7" fill="#161616"/>
+<rect class="bar-fill b6" x="230" y="287" width="580" height="14" rx="7" fill="url(#bar1)" filter="url(#bglow)"/>
+<text class="pct" x="824" y="298" text-anchor="end">100%</text>
+<!-- 100% badge glow -->
+<circle cx="835" cy="291" r="5" fill="#FFD700" opacity=".8">
+  <animate attributeName="opacity" values=".8;.3;.8" dur="1.5s" repeatCount="indefinite"/>
+  <animate attributeName="r" values="5;7;5" dur="1.5s" repeatCount="indefinite"/>
+</circle>
+
+<!-- NLP & LLMs 95% → 551px -->
+<text class="lbl" x="50" y="328">NLP &amp; LLMs</text>
+<rect x="230" y="317" width="580" height="14" rx="7" fill="#161616"/>
+<rect class="bar-fill b7" x="230" y="317" width="551" height="14" rx="7" fill="url(#bar2)" filter="url(#bglow)"/>
+<text class="pct" x="824" y="328" text-anchor="end">95%</text>
+
+<!-- Computer Vision 90% → 522px -->
+<text class="lbl" x="50" y="358">Computer Vision</text>
+<rect x="230" y="347" width="580" height="14" rx="7" fill="#161616"/>
+<rect class="bar-fill b8" x="230" y="347" width="522" height="14" rx="7" fill="url(#bar1)" filter="url(#bglow)"/>
+<text class="pct" x="824" y="358" text-anchor="end">90%</text>
+
+<!-- MLOps 88% → 510px -->
+<text class="lbl" x="50" y="388">MLOps &amp; Deploy</text>
+<rect x="230" y="377" width="580" height="14" rx="7" fill="#161616"/>
+<rect class="bar-fill b9" x="230" y="377" width="510" height="14" rx="7" fill="url(#bar2)" filter="url(#bglow)"/>
+<text class="pct" x="824" y="388" text-anchor="end">88%</text>
+
+<!-- Data Engineering 82% → 476px -->
+<text class="lbl" x="50" y="418">Data Engineering</text>
+<rect x="230" y="407" width="580" height="14" rx="7" fill="#161616"/>
+<rect class="bar-fill b10" x="230" y="407" width="476" height="14" rx="7" fill="url(#bar1)" filter="url(#bglow)"/>
+<text class="pct" x="824" y="418" text-anchor="end">82%</text>
+
+<!-- Floating spark particles -->
+<circle cx="858" cy="103" r="3" fill="#FFD700" opacity=".5">
+  <animate attributeName="opacity" values=".5;1;.5" dur="2s" repeatCount="indefinite"/>
+</circle>
+<circle cx="870" cy="163" r="2" fill="#FF6600" opacity=".4">
+  <animate attributeName="opacity" values=".4;.9;.4" dur="3s" repeatCount="indefinite"/>
+</circle>
+<circle cx="855" cy="287" r="3.5" fill="#FFD700" opacity=".7">
+  <animate attributeName="opacity" values=".7;.2;.7" dur="1.5s" repeatCount="indefinite"/>
+  <animate attributeName="r" values="3.5;5;3.5" dur="1.5s" repeatCount="indefinite"/>
+</circle>
+
+<!-- Bottom bar -->
+<rect x="0" y="456" width="900" height="4" fill="#DC0000" opacity=".4">
+  <animate attributeName="opacity" values=".4;.8;.4" dur="3s" repeatCount="indefinite"/>
+</rect>
+</svg>

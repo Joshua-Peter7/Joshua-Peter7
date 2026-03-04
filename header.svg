@@ -1,0 +1,132 @@
+<svg width="900" height="210" viewBox="0 0 900 210" xmlns="http://www.w3.org/2000/svg">
+<style>
+  @keyframes scan { 0%{transform:translateY(-50px)} 100%{transform:translateY(260px)} }
+  @keyframes pulse { 0%,100%{opacity:.12} 50%{opacity:.28} }
+  @keyframes blinkBar { 0%,100%{opacity:.7} 50%{opacity:1} }
+  @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+  @keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes traceH { from{stroke-dashoffset:700} to{stroke-dashoffset:0} }
+  @keyframes rotateDot { from{transform:rotate(0deg) translateX(20px)} to{transform:rotate(360deg) translateX(20px)} }
+  .scan-l { animation:scan 6s linear infinite; opacity:.04; }
+  .glow-orb { animation:pulse 3s ease-in-out infinite; }
+  .bot-bar { animation:blinkBar 2s ease-in-out infinite; }
+  .p1 { animation:floatA 3.5s ease-in-out infinite; }
+  .p2 { animation:floatB 4.5s ease-in-out infinite; }
+  .p3 { animation:floatA 5s ease-in-out 1s infinite; }
+  .sub { animation:fadeUp .8s ease 1.2s both; }
+  .trace { stroke-dasharray:700; animation:traceH 1.8s ease 0.5s forwards; }
+</style>
+<defs>
+  <linearGradient id="hbg" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#040404"/>
+    <stop offset="50%" stop-color="#0d0000"/>
+    <stop offset="100%" stop-color="#040404"/>
+  </linearGradient>
+  <linearGradient id="title-g" x1="0" y1="0" x2="900" y2="0" gradientUnits="userSpaceOnUse">
+    <stop offset="0%" stop-color="#FF2800">
+      <animate attributeName="stop-color" values="#FF2800;#FFD700;#FF6B00;#FF2800" dur="5s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="40%" stop-color="#FFD700">
+      <animate attributeName="stop-color" values="#FFD700;#FF2800;#FFB300;#FFD700" dur="5s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="100%" stop-color="#FF6B00">
+      <animate attributeName="stop-color" values="#FF6B00;#FF2800;#FFD700;#FF6B00" dur="5s" repeatCount="indefinite"/>
+    </stop>
+  </linearGradient>
+  <filter id="tglow">
+    <feGaussianBlur stdDeviation="5" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="orbglow">
+    <feGaussianBlur stdDeviation="30"/>
+  </filter>
+  <linearGradient id="scanG" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#FF2800" stop-opacity="0"/>
+    <stop offset="50%" stop-color="#FF2800" stop-opacity="1"/>
+    <stop offset="100%" stop-color="#FF2800" stop-opacity="0"/>
+  </linearGradient>
+</defs>
+
+<rect width="900" height="210" fill="url(#hbg)"/>
+
+<!-- Grid -->
+<g stroke="#FF2800" stroke-width=".3" opacity=".06">
+  <line x1="100" y1="0" x2="100" y2="210"/>
+  <line x1="200" y1="0" x2="200" y2="210"/>
+  <line x1="300" y1="0" x2="300" y2="210"/>
+  <line x1="450" y1="0" x2="450" y2="210"/>
+  <line x1="600" y1="0" x2="600" y2="210"/>
+  <line x1="700" y1="0" x2="700" y2="210"/>
+  <line x1="800" y1="0" x2="800" y2="210"/>
+  <line x1="0" y1="52" x2="900" y2="52"/>
+  <line x1="0" y1="105" x2="900" y2="105"/>
+  <line x1="0" y1="158" x2="900" y2="158"/>
+</g>
+
+<!-- Scan line -->
+<rect class="scan-l" x="0" y="0" width="900" height="40" fill="url(#scanG)"/>
+
+<!-- Glow orb -->
+<circle class="glow-orb" cx="450" cy="105" r="110" fill="#DC0000" filter="url(#orbglow)"/>
+
+<!-- HUD corners -->
+<path d="M0,0 L64,0 L64,3 L3,3 L3,64 L0,64 Z" fill="#DC0000"/>
+<path d="M900,0 L836,0 L836,3 L897,3 L897,64 L900,64 Z" fill="#DC0000"/>
+<path d="M0,210 L64,210 L64,207 L3,207 L3,146 L0,146 Z" fill="#DC0000"/>
+<path d="M900,210 L836,210 L836,207 L897,207 L897,146 L900,146 Z" fill="#DC0000"/>
+
+<!-- HUD corner circles -->
+<circle cx="3" cy="3" r="3" fill="#FF2800"/>
+<circle cx="897" cy="3" r="3" fill="#FF2800"/>
+<circle cx="3" cy="207" r="3" fill="#FF2800"/>
+<circle cx="897" cy="207" r="3" fill="#FF2800"/>
+
+<!-- Top micro text -->
+<text x="450" y="20" text-anchor="middle" font-family="monospace" font-size="9" fill="#DC0000" opacity=".5" letter-spacing="8">SCUDERIA FERRARI · ML RACING TEAM · MARANELLO</text>
+
+<!-- Decorative side vertical text -->
+<text x="18" y="115" text-anchor="middle" transform="rotate(-90,18,115)" font-family="monospace" font-size="8" fill="#DC0000" opacity=".35" letter-spacing="4">CHENNAI · INDIA</text>
+<text x="882" y="115" text-anchor="middle" transform="rotate(90,882,115)" font-family="monospace" font-size="8" fill="#DC0000" opacity=".35" letter-spacing="4">EST · 2024</text>
+
+<!-- Main title -->
+<text x="450" y="125" text-anchor="middle"
+  font-family="'Arial Black','Impact',sans-serif"
+  font-size="74" font-weight="900"
+  fill="url(#title-g)"
+  filter="url(#tglow)"
+  letter-spacing="5">JOSHUA PETER S</text>
+
+<!-- Subtitle -->
+<text class="sub" x="450" y="160" text-anchor="middle"
+  font-family="monospace" font-size="13"
+  fill="#666" letter-spacing="5">
+  ML ENGINEER · MODEL BUILDER · DATA DRIVEN
+</text>
+
+<!-- Animated line under subtitle -->
+<line x1="450" y1="170" x2="450" y2="170" stroke="#DC0000" stroke-width="1.5" opacity=".5" class="trace"/>
+
+<!-- Floating particles -->
+<g class="p1"><circle cx="75" cy="50" r="2.5" fill="#FF2800" opacity=".5"/></g>
+<g class="p2"><circle cx="825" cy="160" r="2" fill="#FFD700" opacity=".6"/></g>
+<g class="p3"><circle cx="200" cy="180" r="2" fill="#FF6600" opacity=".4"/></g>
+<g class="p1"><circle cx="700" cy="30" r="2" fill="#FF2800" opacity=".5"/></g>
+<g class="p2"><circle cx="140" cy="140" r="1.5" fill="#FFD700" opacity=".4"/></g>
+<g class="p3"><circle cx="760" cy="80" r="1.5" fill="#FF6600" opacity=".4"/></g>
+
+<!-- Pulsing dot accents -->
+<circle cx="450" cy="185" r="3" fill="#DC0000" opacity=".7">
+  <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values=".7;.3;.7" dur="2s" repeatCount="indefinite"/>
+</circle>
+<circle cx="430" cy="185" r="2" fill="#DC0000" opacity=".4">
+  <animate attributeName="opacity" values=".4;.8;.4" dur="2s" begin="0.3s" repeatCount="indefinite"/>
+</circle>
+<circle cx="470" cy="185" r="2" fill="#DC0000" opacity=".4">
+  <animate attributeName="opacity" values=".4;.8;.4" dur="2s" begin="0.6s" repeatCount="indefinite"/>
+</circle>
+
+<!-- Bottom bar -->
+<rect class="bot-bar" x="0" y="206" width="900" height="4" fill="#DC0000"/>
+</svg>
