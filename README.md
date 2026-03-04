@@ -10,9 +10,6 @@
 <div align="center"><img src="./skills.svg" width="100%"/></div>
 
 ---
-
-## 📈 Race Stats
-
 <p align="center">
   <img src="https://github-readme-stats.vercel.app/api?username=Joshua-Peter7&show_icons=true&theme=radical&bg_color=0D0D0D&border_color=DC0000&icon_color=FF2800&title_color=FF2800&text_color=ffffff" height="160"/>
   &nbsp;
