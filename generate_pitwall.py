@@ -2,12 +2,25 @@ import os
 import urllib.request
 import json
 import html
+import re
 
 USERNAME = os.environ.get("GITHUB_REPOSITORY_OWNER", "Joshua-Peter7")
 TOKEN = os.environ.get("GITHUB_TOKEN", "")
 
-url = f"https://api.github.com/users/{USERNAME}/repos?sort=created&direction=desc&per_page=10"
-headers = {"Accept": "application/vnd.github+json", "User-Agent": "Scuderia-Pitwall-Bot"}
+def clean_xml_text(text, max_len=46):
+    if not text:
+        return ""
+    # Remove non-ASCII/emoji characters that can break strict XML renderers
+    text = re.sub(r'[^\x20-\x7E]', '', str(text)).strip()
+    if len(text) > max_len:
+        text = text[:max_len - 3].rstrip() + "..."
+    return html.escape(text, quote=True)
+
+url = f"https://api.github.com/users/{USERNAME}/repos?sort=created&direction=desc&per_page=15"
+headers = {
+    "Accept": "application/vnd.github+json",
+    "User-Agent": "Scuderia-Pitwall-Bot"
+}
 if TOKEN:
     headers["Authorization"] = f"Bearer {TOKEN}"
 
@@ -15,40 +28,35 @@ req = urllib.request.Request(url, headers=headers)
 with urllib.request.urlopen(req) as resp:
     repos = json.loads(resp.read().decode("utf-8"))
 
-# Filter out forks and your profile README repo itself, keep top 4 newest projects
 projects = [
     r for r in repos
-    if not r.get("fork") and r["name"].lower() != USERNAME.lower()
+    if not r.get("fork") and r.get("name", "").lower() != USERNAME.lower()
 ][:4]
 
-# Fallback if fewer than 4 repos exist
 while len(projects) < 4:
     projects.append({
         "name": f"Telemetry-Node-{len(projects)+1}",
         "description": "Standby Scuderia Engineering Module",
         "language": "Python",
-        "stargazers_count": 0,
-        "updated_at": "2026-01-01T00:00:00Z"
+        "stargazers_count": 0
     })
 
-sectors = ["S1 // Latest", "S2 // Recent", "S3 // Build", "S4 // Garage"]
+sectors = [("S1 // Latest", "Engine"), ("S2 // Recent", "Build"), ("S3 // Active", "Module"), ("S4 // Garage", "System")]
 
 rows_svg = []
 for i, repo in enumerate(projects):
     y_top = 47 + (i * 59)
     y_line = y_top + 58
-    row_bg = '<rect x="3" y="{}" width="894" height="58" fill="#ffffff" fill-opacity="0.05"/>'.format(y_top) if i % 2 == 0 else ""
+    row_bg = f'<rect x="3" y="{y_top}" width="894" height="58" fill="#ffffff" fill-opacity="0.05"/>' if i % 2 == 0 else ""
     divider = f'<line x1="3" y1="{y_line}" x2="897" y2="{y_line}" stroke="#FF2800" stroke-opacity="0.45" stroke-width="1"/>' if i < 3 else ""
 
-    name = html.escape(repo["name"][:28])
-    desc = html.escape((repo.get("description") or "Active Scuderia Engineering Repository")[:48])
-    lang = html.escape(repo.get("language") or "AI / Code")
-    stars = repo.get("stargazers_count", 0)
-    tech_line = f"{lang} • ★ {stars} • Auto-Synced"
+    name = clean_xml_text(repo.get("name", "Project"), max_len=26) or "New-Repository"
+    desc = clean_xml_text(repo.get("description") or "Active Scuderia Engineering Repository", max_len=46)
+    lang = clean_xml_text(repo.get("language") or "AI / Code", max_len=16)
+    stars = int(repo.get("stargazers_count", 0))
+    tech_line = f"{lang} • Stars: {stars} • Auto-Synced"
 
-    sector_parts = sectors[i].split(" ")
-    sec_l1 = f"{sector_parts[0]} {sector_parts[1]}"
-    sec_l2 = sector_parts[2]
+    sec_l1, sec_l2 = sectors[i]
 
     rows_svg.append(f'''
     {row_bg}
@@ -56,19 +64,19 @@ for i, repo in enumerate(projects):
     <text x="20" y="{y_top + 26}" fill="#FFB800" font-family="monospace" font-size="12.5" font-weight="bold">{sec_l1}</text>
     <text x="20" y="{y_top + 44}" fill="#FFB800" font-family="monospace" font-size="12.5" font-weight="bold">{sec_l2}</text>
 
-    <text x="212" y="{y_top + 34}" fill="#ffffff" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="bold">{name}</text>
+    <text x="212" y="{y_top + 34}" fill="#ffffff" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="bold">{name}</text>
 
     <text x="462" y="{y_top + 26}" fill="#ffe5e5" font-family="monospace" font-size="12">{desc}</text>
     <text x="462" y="{y_top + 44}" fill="#ffb3b3" font-family="monospace" font-size="11">{tech_line}</text>
 
     <rect x="782" y="{y_top + 17}" width="98" height="24" rx="12" fill="#1a0000" stroke="#00FF66" stroke-width="1"/>
     <circle cx="798" cy="{y_top + 29}" r="4.5" fill="#00FF66">
-      <animate attributeName="opacity" values="1;0.3;1" dur="1.4s" begin="{i*0.3}s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.3;1" dur="1.4s" begin="{i * 0.3:.1f}s" repeatCount="indefinite"/>
     </circle>
     <text x="838" y="{y_top + 33}" text-anchor="middle" fill="#00FF66" font-family="monospace" font-size="11" font-weight="bold">LIVE</text>
     ''')
 
-svg_output = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 285" width="100%">
+svg_output = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 285" width="900" height="285">
   <defs>
     <linearGradient id="ferrariRedBg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#4a0000"/>
@@ -96,7 +104,7 @@ svg_output = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 285" w
   <line x1="445" y1="3" x2="445" y2="282" stroke="#FF2800" stroke-opacity="0.45" stroke-width="1"/>
   <line x1="765" y1="3" x2="765" y2="282" stroke="#FF2800" stroke-opacity="0.45" stroke-width="1"/>
 
-  <g font-family="'Orbitron', 'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#ffffff" letter-spacing="1.5">
+  <g font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ffffff" letter-spacing="1.5">
     <text x="20" y="30">SECTOR</text>
     <text x="212" y="30">NEWEST REPOSITORY</text>
     <text x="462" y="30">DESCRIPTION & TELEMETRY</text>
@@ -109,4 +117,4 @@ svg_output = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 285" w
 with open("pitwall-console.svg", "w", encoding="utf-8") as f:
     f.write(svg_output)
 
-print("Updated pitwall-console.svg with latest repositories.")
+print("Successfully generated pitwall-console.svg")
