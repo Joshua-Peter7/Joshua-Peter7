@@ -18,17 +18,16 @@
   <img src="./telemetry-3d.svg" width="100%"/>
 </div>
 
+<br/>
+
 <details open>
-  <summary><b>🎛️ INTERACTIVE PIT WALL CONSOLE — Click to Expand/Collapse Telemetry & Projects</b></summary>
+  <summary><b>🎛️ INTERACTIVE PIT WALL CONSOLE — Click to Expand/Collapse Latest Projects</b></summary>
   <br/>
-
-| Sector | System / Project | Tech Stack & Architecture | Telemetry Status |
-| :--- | :--- | :--- | :---: |
-| **S1 // Neural Engine** | **Local BFSI Conversational AI** | Fine-tuned `Phi-4` (LoRA), `Qdrant`, `BGE-M3`, `Llama Guard 3` | 🟢 `ACTIVE` |
-| **S2 // Vision & Voice** | **WebRTC AI Interview Pipeline & Whisper-v3** | Self-hosted WebRTC, `MediaPipe` Gaze Tracking, `Whisper Large-v3` | 🟢 `ACTIVE` |
-| **S3 // Civic Kiosk** | **Kumari Kaavalan Smart Kiosk** | `Electron`, `AWS Lambda`, `Firebase RTDB`, Multilingual NLP | 🟢 `DEPLOYED` |
-| **S4 // Automation** | **Omnichannel Lead & Workflow Engine** | `n8n`, `ManyChat`, WhatsApp Business API, Python FastAPI | 🟢 `ACTIVE` |
-
+  <div align="center">
+    <a href="https://github.com/Joshua-Peter7?tab=repositories">
+      <img src="./pitwall-console.svg" width="100%" alt="Scuderia Pitwall Live Repositories"/>
+    </a>
+  </div>
 </details>
 
 ---
