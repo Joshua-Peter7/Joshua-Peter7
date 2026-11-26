@@ -1,0 +1,36 @@
+name: Auto-Update Scuderia Pitwall & Telemetry
+
+on:
+  schedule:
+    - cron: "0 */3 * * *" # Checks for new repos every 3 hours
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-profile:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Fetch Newest Repos & Generate Red Pitwall SVG
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+        run: python generate_pitwall.py
+
+      - name: Commit Updated Pitwall SVG
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pitwall-console.svg
+          git diff --staged --quiet || git commit -m "chore: auto-sync latest projects to pitwall"
+          git push
