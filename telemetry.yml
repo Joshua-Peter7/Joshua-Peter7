@@ -2,7 +2,7 @@ name: Generate 3D Telemetry & Animated Track
 
 on:
   schedule:
-    - cron: "0 */12 * * *" # Runs every 12 hours
+    - cron: "0 */12 * * *"
   workflow_dispatch:
   push:
     branches:
@@ -11,13 +11,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Generate Visuals
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
 
-      # 1. Generate 3D Isometric Contribution Graph (Custom Ferrari Palette)
       - uses: yoshi389111/github-profile-3d-contrib@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -32,7 +30,6 @@ jobs:
           git diff --staged --quiet || git commit -m "chore: update 3D telemetry graph"
           git push
 
-      # 2. Generate Animated Contribution Track (Snake SVG)
       - name: Generate Contribution Snake
         uses: Platane/snk/svg-only@v3
         with:
