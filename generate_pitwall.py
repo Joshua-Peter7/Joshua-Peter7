@@ -3,6 +3,7 @@ import urllib.request
 import json
 import html
 import re
+import xml.etree.ElementTree as ET
 
 USERNAME = os.environ.get("GITHUB_REPOSITORY_OWNER", "Joshua-Peter7")
 TOKEN = os.environ.get("GITHUB_TOKEN", "")
@@ -10,7 +11,7 @@ TOKEN = os.environ.get("GITHUB_TOKEN", "")
 def clean_xml_text(text, max_len=46):
     if not text:
         return ""
-    # Remove non-ASCII/emoji characters that can break strict XML renderers
+    # Strip all non-ASCII characters (emojis, smart quotes, bullets) that break GitHub SVG sanitizer
     text = re.sub(r'[^\x20-\x7E]', '', str(text)).strip()
     if len(text) > max_len:
         text = text[:max_len - 3].rstrip() + "..."
@@ -41,7 +42,12 @@ while len(projects) < 4:
         "stargazers_count": 0
     })
 
-sectors = [("S1 // Latest", "Engine"), ("S2 // Recent", "Build"), ("S3 // Active", "Module"), ("S4 // Garage", "System")]
+sectors = [
+    ("S1 // Latest", "Engine"),
+    ("S2 // Recent", "Build"),
+    ("S3 // Active", "Module"),
+    ("S4 // Garage", "System")
+]
 
 rows_svg = []
 for i, repo in enumerate(projects):
@@ -54,7 +60,7 @@ for i, repo in enumerate(projects):
     desc = clean_xml_text(repo.get("description") or "Active Scuderia Engineering Repository", max_len=46)
     lang = clean_xml_text(repo.get("language") or "AI / Code", max_len=16)
     stars = int(repo.get("stargazers_count", 0))
-    tech_line = f"{lang} • Stars: {stars} • Auto-Synced"
+    tech_line = f"{lang}  |  Stars: {stars}  |  Auto-Synced"
 
     sec_l1, sec_l2 = sectors[i]
 
@@ -64,7 +70,7 @@ for i, repo in enumerate(projects):
     <text x="20" y="{y_top + 26}" fill="#FFB800" font-family="monospace" font-size="12.5" font-weight="bold">{sec_l1}</text>
     <text x="20" y="{y_top + 44}" fill="#FFB800" font-family="monospace" font-size="12.5" font-weight="bold">{sec_l2}</text>
 
-    <text x="212" y="{y_top + 34}" fill="#ffffff" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="bold">{name}</text>
+    <text x="212" y="{y_top + 34}" fill="#ffffff" font-family="Arial, sans-serif" font-size="14" font-weight="bold">{name}</text>
 
     <text x="462" y="{y_top + 26}" fill="#ffe5e5" font-family="monospace" font-size="12">{desc}</text>
     <text x="462" y="{y_top + 44}" fill="#ffb3b3" font-family="monospace" font-size="11">{tech_line}</text>
@@ -76,7 +82,8 @@ for i, repo in enumerate(projects):
     <text x="838" y="{y_top + 33}" text-anchor="middle" fill="#00FF66" font-family="monospace" font-size="11" font-weight="bold">LIVE</text>
     ''')
 
-svg_output = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 285" width="900" height="285">
+svg_output = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 285" width="900" height="285">
   <defs>
     <linearGradient id="ferrariRedBg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#4a0000"/>
@@ -114,7 +121,10 @@ svg_output = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 285" w
   {"".join(rows_svg)}
 </svg>'''
 
+# Validate strict XML syntax before writing
+ET.fromstring(svg_output)
+
 with open("pitwall-console.svg", "w", encoding="utf-8") as f:
     f.write(svg_output)
 
-print("Successfully generated pitwall-console.svg")
+print("Successfully validated and generated pitwall-console.svg")
